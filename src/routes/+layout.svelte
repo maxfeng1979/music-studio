@@ -1,21 +1,33 @@
 <script lang="ts">
   import '../app.css';
   import { page } from '$app/stores';
+  import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
+  import { invoke } from '@tauri-apps/api/core';
+  import { t } from '$lib/i18n';
 
-  const navItems = [
-    { href: '/generator', label: 'Generator' },
-    { href: '/library', label: 'Library' },
-    { href: '/settings', label: 'Settings' },
-  ];
+  onMount(async () => {
+    // Check API key status; if not configured and not on onboarding, redirect
+    try {
+      const configured: boolean = await invoke('get_api_key_status');
+      if (!configured && !$page.url.pathname.startsWith('/onboarding')) {
+        goto('/onboarding');
+      }
+    } catch {}
+  });
 
   $: showNav = $page.url.pathname !== '/onboarding';
 </script>
 
 {#if showNav}
 <nav>
-  {#each navItems as item}
+  {#each [
+    { href: '/generator', key: 'generator' },
+    { href: '/library', key: 'library' },
+    { href: '/settings', key: 'settings' },
+  ] as item}
     <a href={item.href} class:active={$page.url.pathname === item.href}>
-      {item.label}
+      {$t.nav[item.key]}
     </a>
   {/each}
 </nav>
