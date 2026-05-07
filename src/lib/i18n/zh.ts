@@ -18,6 +18,11 @@ export const zh = {
     lyrics: '歌词',
     generateCover: '生成封面',
     generatingCover: '正在生成封面...',
+    saveToLibrary: '保存到音乐库',
+    discard: '放弃',
+    discardConfirm: '确定要放弃这首音乐吗？音频文件将被删除。',
+    saved: '已保存',
+    leaveConfirm: '你有未保存的音乐，确定要离开吗？',
   },
   musicForm: {
     aiAssistant: 'AI 音乐助手',

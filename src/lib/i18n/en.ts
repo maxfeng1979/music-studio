@@ -18,6 +18,11 @@ export const en = {
     lyrics: 'Lyrics',
     generateCover: 'Generate Cover',
     generatingCover: 'Generating cover...',
+    saveToLibrary: 'Save to Library',
+    discard: 'Discard',
+    discardConfirm: 'Are you sure you want to discard? The audio file will be deleted.',
+    saved: 'Saved',
+    leaveConfirm: 'You have unsaved music. Are you sure you want to leave?',
   },
   musicForm: {
     aiAssistant: 'AI Music Assistant',

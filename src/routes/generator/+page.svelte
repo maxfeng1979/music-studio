@@ -1,16 +1,20 @@
 <script lang="ts">
   import { invoke } from '@tauri-apps/api/core';
+  import { beforeNavigate } from '$app/navigation';
   import MusicForm from '$lib/components/MusicForm.svelte';
   import AudioPlayer from '$lib/components/AudioPlayer.svelte';
   import { t } from '$lib/i18n';
 
   let loading = false;
   let generatedMusic: any = null;
+  let isSaved = false;
   let error: string | null = null;
   let autoCoverEnabled = false;
   let coverBlobUrl = '';
   let coverLoading = false;
   let coverError: string | null = null;
+
+  $: hasUnsavedPreview = generatedMusic !== null && !isSaved;
 
   // Read autoCover setting from localStorage
   try {
@@ -21,7 +25,6 @@
     }
   } catch {}
 
-  // Listen for storage changes (when user toggles in Settings page)
   window.addEventListener('storage', () => {
     try {
       const saved = localStorage.getItem('music-studio-settings');
@@ -30,6 +33,17 @@
         autoCoverEnabled = settings.autoCover ?? false;
       }
     } catch {}
+  });
+
+  beforeNavigate(() => {
+    if (hasUnsavedPreview) {
+      if (!confirm($t.generator.leaveConfirm)) {
+        return false;
+      }
+      if (generatedMusic?.audio_path) {
+        invoke('discard_preview', { audioPath: generatedMusic.audio_path }).catch(() => {});
+      }
+    }
   });
 
   async function loadCoverAsBlob(filePath: string) {
@@ -51,15 +65,12 @@
     loading = true;
     error = null;
     generatedMusic = null;
+    isSaved = false;
     coverBlobUrl = '';
     coverError = null;
 
     try {
-      generatedMusic = await invoke('generate_music', { params: data });
-      // Auto-generate cover if enabled
-      if (generatedMusic && autoCoverEnabled) {
-        handleGenerateCover();
-      }
+      generatedMusic = await invoke('preview_music', { params: data });
     } catch (e: any) {
       error = e.toString();
     } finally {
@@ -67,12 +78,44 @@
     }
   }
 
-  async function handleGenerateCover() {
+  async function handleSaveToLibrary() {
     if (!generatedMusic) return;
+    try {
+      const record = await invoke('save_music_to_library', { params: generatedMusic });
+      generatedMusic = record;
+      isSaved = true;
+
+      if (autoCoverEnabled) {
+        handleGenerateCover();
+      }
+    } catch (e: any) {
+      error = e.toString();
+    }
+  }
+
+  async function handleDiscard() {
+    if (!generatedMusic) return;
+    if (!confirm($t.generator.discardConfirm)) return;
+
+    try {
+      if (generatedMusic.audio_path) {
+        await invoke('discard_preview', { audioPath: generatedMusic.audio_path });
+      }
+    } catch (e) {
+      console.error('Failed to discard preview:', e);
+    }
+
+    generatedMusic = null;
+    isSaved = false;
+    coverBlobUrl = '';
+    coverError = null;
+  }
+
+  async function handleGenerateCover() {
+    if (!generatedMusic || !generatedMusic.id) return;
     coverLoading = true;
     coverError = null;
     try {
-      // Step 1: Generate a cover image prompt via LLM
       const coverPrompt = await invoke<string>('generate_cover_prompt', {
         params: {
           title: generatedMusic.title,
@@ -81,7 +124,6 @@
         }
       });
 
-      // Step 2: Generate cover image using the AI-generated prompt
       const coverPath = await invoke('generate_cover_image', {
         params: {
           music_id: generatedMusic.id,
@@ -166,14 +208,20 @@
           {/if}
 
           <div class="result-actions">
-            {#if !generatedMusic.cover_image_path}
-              <button class="secondary" on:click={handleGenerateCover} disabled={coverLoading}>
-                {#if coverLoading}
-                  {$t.generator.generatingCover}
-                {:else}
-                  {$t.generator.generateCover}
-                {/if}
-              </button>
+            {#if !isSaved}
+              <button class="primary" on:click={handleSaveToLibrary}>{$t.generator.saveToLibrary}</button>
+              <button class="secondary danger-btn" on:click={handleDiscard}>{$t.generator.discard}</button>
+            {:else}
+              <span class="saved-badge">{$t.generator.saved}</span>
+              {#if !generatedMusic.cover_image_path}
+                <button class="secondary" on:click={handleGenerateCover} disabled={coverLoading}>
+                  {#if coverLoading}
+                    {$t.generator.generatingCover}
+                  {:else}
+                    {$t.generator.generateCover}
+                  {/if}
+                </button>
+              {/if}
             {/if}
           </div>
         </div>
@@ -385,5 +433,37 @@
 
   .empty-state p {
     font-size: 14px;
+  }
+
+  .primary {
+    background: var(--color-primary);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .primary:hover {
+    opacity: 0.9;
+  }
+
+  .danger-btn {
+    color: #ef4444;
+    border-color: #ef4444;
+  }
+
+  .danger-btn:hover {
+    background: #ef4444;
+    color: white;
+  }
+
+  .saved-badge {
+    font-size: 12px;
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 600;
   }
 </style>
