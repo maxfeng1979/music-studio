@@ -132,3 +132,99 @@ pub async fn generate_music_streaming(
 
     Ok(())
 }
+
+#[derive(Debug, serde::Serialize, serde::Deserialize, Clone)]
+pub struct PreviewMusicResult {
+    pub title: String,
+    pub prompt: String,
+    pub lyrics: Option<String>,
+    pub model: String,
+    pub audio_path: String,
+    pub duration_ms: Option<i64>,
+    pub file_size: Option<i64>,
+    pub sample_rate: Option<i64>,
+    pub bitrate: Option<i64>,
+    pub is_instrumental: bool,
+}
+
+#[tauri::command]
+pub async fn preview_music(params: GenerateMusicParams) -> Result<PreviewMusicResult, String> {
+    let api_key = crate::config::get_api_key()?;
+    let client = MinimaxClient::new(&api_key)?;
+
+    let req = GenerateMusicRequest {
+        model: params.model.clone(),
+        prompt: params.prompt.clone(),
+        lyrics: params.lyrics.clone(),
+        is_instrumental: params.is_instrumental,
+        lyrics_optimizer: params.lyrics_optimizer,
+        output_format: params.output_format.clone(),
+        stream: params.stream,
+        audio_setting: params.audio_setting.clone(),
+        aigc_watermark: params.aigc_watermark,
+    };
+
+    let resp = client.generate_music(req).await?;
+
+    let audio_data = resp.data.audio.unwrap_or_default();
+    let audio_path = storage::save_audio(&audio_data, &params.audio_setting.format)?;
+
+    let file_size = std::fs::metadata(&audio_path)
+        .map(|m| m.len() as i64)
+        .ok();
+
+    let extra = resp.extra_info;
+    let duration_ms = extra.as_ref().and_then(|e| e.music_duration);
+    let sample_rate = extra.as_ref().and_then(|e| e.music_sample_rate);
+    let bitrate = extra.as_ref().and_then(|e| e.bitrate);
+
+    Ok(PreviewMusicResult {
+        title: params.title,
+        prompt: params.prompt,
+        lyrics: params.lyrics,
+        model: params.model,
+        audio_path: audio_path.to_string_lossy().to_string(),
+        duration_ms,
+        file_size,
+        sample_rate: sample_rate.map(|s| s as i64),
+        bitrate: bitrate.map(|b| b as i64),
+        is_instrumental: params.is_instrumental,
+    })
+}
+
+#[derive(Debug, serde::Deserialize)]
+pub struct SaveMusicParams {
+    pub title: String,
+    pub prompt: String,
+    pub lyrics: Option<String>,
+    pub model: String,
+    pub audio_path: String,
+    pub duration_ms: Option<i64>,
+    pub file_size: Option<i64>,
+    pub sample_rate: Option<i64>,
+    pub bitrate: Option<i64>,
+    pub is_instrumental: bool,
+}
+
+#[tauri::command]
+pub async fn save_music_to_library(params: SaveMusicParams, db: State<'_, Database>) -> Result<DbMusicRecord, String> {
+    let new_music = NewMusic {
+        title: params.title,
+        prompt: params.prompt,
+        lyrics: params.lyrics,
+        model: params.model,
+        audio_path: params.audio_path,
+        cover_image_path: None,
+        duration_ms: params.duration_ms,
+        file_size: params.file_size,
+        sample_rate: params.sample_rate,
+        bitrate: params.bitrate,
+        is_instrumental: params.is_instrumental,
+    };
+    db.insert_music(&new_music).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+pub async fn discard_preview(audio_path: String) -> Result<(), String> {
+    storage::delete_audio(&audio_path)
+}

@@ -18,6 +18,9 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             music::generate_music,
             music::generate_music_streaming,
+            music::preview_music,
+            music::save_music_to_library,
+            music::discard_preview,
             image::generate_cover_image,
             library::get_all_music,
             library::get_music,

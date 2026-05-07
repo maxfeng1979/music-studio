@@ -81,8 +81,8 @@ pub async fn generate_cover_prompt(params: CoverPromptParams) -> Result<String, 
         params.title, params.music_prompt
     );
     if let Some(ref lyrics) = params.lyrics {
-        // Take first 500 chars of lyrics to capture the mood
-        let excerpt = if lyrics.len() > 500 { &lyrics[..500] } else { lyrics };
+        // Take first 500 chars (not bytes) of lyrics to capture the mood
+        let excerpt: String = lyrics.chars().take(500).collect();
         user_message.push_str(&format!("\n歌词摘录：{}", excerpt));
     }
 

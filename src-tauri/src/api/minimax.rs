@@ -167,7 +167,6 @@ impl MinimaxClient {
             .map_err(|e| e.to_string())?;
 
         let raw = response.text().await.map_err(|e| e.to_string())?;
-        eprintln!("[minimax] image API raw response: {}", &raw[..raw.len().min(2000)]);
 
         let resp: ImageGenerationResponse = serde_json::from_str(&raw)
             .map_err(|e| format!("Failed to parse image response: {}. Raw: {}", e, &raw[..raw.len().min(500)]))?;

@@ -1,4 +1,5 @@
-use tauri::{State, Emitter};
+use base64::Engine;
+use tauri::State;
 use crate::db::Database;
 use crate::api::minimax::{MinimaxClient, ImageGenerationRequest};
 use crate::audio::storage;
@@ -38,13 +39,14 @@ pub async fn generate_cover_image(params: GenerateCoverParams, db: State<'_, Dat
 
     let resp = client.generate_image(req).await?;
 
+    // image-01 returns image data directly (synchronous, not async)
     let image_data = if params.response_format == "base64" {
         resp.data.image_base64.and_then(|v| v.into_iter().next())
     } else {
         let url = resp.data.image_urls.and_then(|v| v.into_iter().next()).ok_or("No URL returned")?;
-        let bytes = reqwest::get(&url).await.map_err(|e| e.to_string())?
+        let bytes = reqwest::get(url).await.map_err(|e| e.to_string())?
             .bytes().await.map_err(|e| e.to_string())?;
-        Some(base64::Engine::encode(&base64::engine::general_purpose::STANDARD, &bytes))
+        Some(base64::engine::general_purpose::STANDARD.encode(&bytes))
     }.ok_or("No image data returned")?;
 
     let cover_path = storage::save_cover_image(&image_data, params.music_id)?;
