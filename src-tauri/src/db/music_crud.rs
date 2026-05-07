@@ -93,26 +93,34 @@ impl super::Database {
             Some("duration") => "duration_ms DESC",
             _ => "created_at DESC",
         };
+
         let mut conditions = Vec::new();
-        if filter_tag.map(|t| !t.is_empty()).unwrap_or(false) {
-            conditions.push(format!("WHERE tags LIKE '%{}%'", filter_tag.unwrap()));
-        }
-        if let Some(is_inst) = filter_instrumental {
-            let cond = if is_inst { "is_instrumental = 1" } else { "is_instrumental = 0" };
-            if conditions.is_empty() {
-                conditions.push(format!("WHERE {}", cond));
-            } else {
-                conditions.push(cond.to_string());
+        let mut params: Vec<Box<dyn rusqlite::types::ToSql>> = Vec::new();
+
+        if let Some(tag) = filter_tag {
+            if !tag.is_empty() {
+                conditions.push("tags LIKE ?".to_string());
+                params.push(Box::new(format!("%{}%", tag)));
             }
         }
-        let filter = if conditions.is_empty() {
+        if let Some(is_inst) = filter_instrumental {
+            conditions.push(if is_inst { "is_instrumental = 1" } else { "is_instrumental = 0" }.to_string());
+        }
+
+        let where_clause = if conditions.is_empty() {
             String::new()
         } else {
-            conditions.join(" AND ")
+            format!("WHERE {}", conditions.join(" AND "))
         };
-        let sql = format!("SELECT id, title, prompt, lyrics, model, audio_path, cover_image_path, duration_ms, file_size, sample_rate, bitrate, created_at, tags, notes, is_instrumental FROM music {} ORDER BY {}", if filter.is_empty() { String::new() } else { format!("WHERE {}", filter) }, order);
+
+        let sql = format!(
+            "SELECT id, title, prompt, lyrics, model, audio_path, cover_image_path, duration_ms, file_size, sample_rate, bitrate, created_at, tags, notes, is_instrumental FROM music {} ORDER BY {}",
+            where_clause, order
+        );
+
         let mut stmt = conn.prepare(&sql)?;
-        let rows = stmt.query_map([], |row| {
+        let param_refs: Vec<&dyn rusqlite::types::ToSql> = params.iter().map(|p| p.as_ref()).collect();
+        let rows = stmt.query_map(param_refs.as_slice(), |row| {
             Ok(MusicRecord {
                 id: row.get(0)?,
                 title: row.get(1)?,
