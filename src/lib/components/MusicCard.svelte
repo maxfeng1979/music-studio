@@ -4,6 +4,8 @@
   import { invoke } from '@tauri-apps/api/core';
   import { t } from '$lib/i18n';
 
+  const coverCache = new Map<string, string>();
+
   export let music: {
     id: number;
     title: string;
@@ -26,9 +28,9 @@
   let showCoverModal = false;
 
   async function loadCover(filePath: string) {
-    if (coverBlobUrl) {
-      URL.revokeObjectURL(coverBlobUrl);
-      coverBlobUrl = '';
+    if (coverCache.has(filePath)) {
+      coverBlobUrl = coverCache.get(filePath)!;
+      return;
     }
     try {
       const result = await invoke<{ data: string; mime_type: string }>('read_file_as_data_url', { path: filePath });
@@ -38,14 +40,18 @@
         bytes[i] = binaryStr.charCodeAt(i);
       }
       const blob = new Blob([bytes], { type: result.mime_type });
-      coverBlobUrl = URL.createObjectURL(blob);
+      const url = URL.createObjectURL(blob);
+      coverCache.set(filePath, url);
+      coverBlobUrl = url;
     } catch (e) {
       console.error('Failed to load cover:', e);
     }
   }
 
-  $: if (music.cover_image_path) {
+  $: if (music.cover_image_path && !coverCache.has(music.cover_image_path)) {
     loadCover(music.cover_image_path);
+  } else if (music.cover_image_path && coverCache.has(music.cover_image_path)) {
+    coverBlobUrl = coverCache.get(music.cover_image_path)!;
   }
 
   function openCoverModal() {
@@ -57,11 +63,9 @@
   }
 
   function handleCoverUpdated(id: number, coverPath: string) {
-    if (coverBlobUrl) URL.revokeObjectURL(coverBlobUrl);
+    coverCache.delete(coverPath);
     coverBlobUrl = '';
     onCoverUpdated(id, coverPath);
-    // Reload cover after DB update
-    loadCover(coverPath);
   }
 
   function formatDuration(ms: number | null): string {
