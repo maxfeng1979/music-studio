@@ -1,6 +1,7 @@
 <script lang="ts">
   import { invoke } from '@tauri-apps/api/core';
   import { beforeNavigate } from '$app/navigation';
+  import { onMount } from 'svelte';
   import MusicForm from '$lib/components/MusicForm.svelte';
   import AudioPlayer from '$lib/components/AudioPlayer.svelte';
   import { t } from '$lib/i18n';
@@ -16,16 +17,7 @@
 
   $: hasUnsavedPreview = generatedMusic !== null && !isSaved;
 
-  // Read autoCover setting from localStorage
-  try {
-    const saved = localStorage.getItem('music-studio-settings');
-    if (saved) {
-      const settings = JSON.parse(saved);
-      autoCoverEnabled = settings.autoCover ?? false;
-    }
-  } catch {}
-
-  window.addEventListener('storage', () => {
+  onMount(() => {
     try {
       const saved = localStorage.getItem('music-studio-settings');
       if (saved) {
@@ -33,6 +25,16 @@
         autoCoverEnabled = settings.autoCover ?? false;
       }
     } catch {}
+
+    window.addEventListener('storage', () => {
+      try {
+        const saved = localStorage.getItem('music-studio-settings');
+        if (saved) {
+          const settings = JSON.parse(saved);
+          autoCoverEnabled = settings.autoCover ?? false;
+        }
+      } catch {}
+    });
   });
 
   beforeNavigate(() => {
