@@ -1,10 +1,10 @@
 # Music Studio
 
-[English](./README_EN.md) | **中文**
+**中文** | [English](./README_EN.md)
 
 🎵 AI 驱动的桌面音乐创作工具
 
-[![最新下载](https://img.shields.io/github/v/release/maxfeng1979/music-studio?label=%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E5%8C%85)](https://github.com/maxfeng1979/music-studio/releases/latest/download/MusicStudio_0.1.0_x64-setup.exe)
+[![Windows最新下载](https://img.shields.io/github/v/release/maxfeng1979/music-studio?label=%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E5%8C%85)](https://github.com/maxfeng1979/music-studio/releases/latest/download/MusicStudio_0.1.0_x64-setup.exe)
 
 ---
 

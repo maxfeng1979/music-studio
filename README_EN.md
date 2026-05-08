@@ -1,10 +1,10 @@
 # Music Studio
 
-**English** | [中文](./README.md)
+**中文** | [English](./README_EN.md)
 
 🎵 AI-powered music generation desktop application
 
-[![Download](https://img.shields.io/github/v/release/maxfeng1979/music-studio?label=Download%20Installer)](https://github.com/maxfeng1979/music-studio/releases/latest/download/MusicStudio_0.1.0_x64-setup.exe)
+[![Windows Download](https://img.shields.io/github/v/release/maxfeng1979/music-studio?label=Download%20Installer)](https://github.com/maxfeng1979/music-studio/releases/latest/download/MusicStudio_0.1.0_x64-setup.exe)
 
 ---
 
