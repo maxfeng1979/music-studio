@@ -89,6 +89,7 @@ export const zh = {
     currentLocation: '当前位置',
     selectNewFolder: '选择新文件夹...',
     apply: '应用',
+    restartRequired: '路径已更改，重启应用后生效',
     about: '关于',
     version: '版本',
     desktopMusicTool: '由 MiniMax API 驱动的桌面音乐生成工具',

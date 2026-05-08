@@ -73,7 +73,7 @@
       const result = await invoke<string>('set_data_path', { newPath });
       currentDataPath = result;
       newPath = '';
-      pathSuccess = 'Data migrated successfully!';
+      pathSuccess = $t.settings.restartRequired;
     } catch (e: any) {
       pathError = e.toString();
     } finally {

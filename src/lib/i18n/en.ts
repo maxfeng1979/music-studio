@@ -89,6 +89,7 @@ export const en = {
     currentLocation: 'Current location',
     selectNewFolder: 'Select a new folder...',
     apply: 'Apply',
+    restartRequired: 'Path changed. Please restart the app for changes to take effect.',
     about: 'About',
     version: 'Version',
     desktopMusicTool: 'Desktop music generation tool powered by MiniMax API',

@@ -35,6 +35,15 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "createUpdaterArtifacts": true
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDkyMDMzRDAxOTM2QzBERkYKUldUL0RXeVRBVDBEa2lERnV1SkV0cHFBNWs5QXBrRFhEU1VTcEhpR1Z1WFV6dXVwMkpIUlFrM28K",
+      "endpoints": [
+        "https://github.com/maxfeng1979/music-studio/releases/latest/download/latest.json"
+      ]
+    }
   }
 }

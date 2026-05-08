@@ -177,10 +177,6 @@
             <input type="radio" bind:group={formData.output_format} value="hex" disabled={disabled} />
             {$t.musicForm.hex}
           </label>
-          <label class="radio-label">
-            <input type="radio" bind:group={formData.output_format} value="url" disabled={disabled} />
-            {$t.musicForm.url}
-          </label>
         </div>
       </div>
 

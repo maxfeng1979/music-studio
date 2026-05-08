@@ -1,0 +1,11 @@
+{
+  "version": "0.1.0",
+  "notes": "Music Studio v0.1.0 首个正式版本",
+  "pub_date": "2026-05-08T00:00:00Z",
+  "platforms": {
+    "windows-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUL0RXeVRBVDBEa2dwd29Yb0pxcFlScUhrTGlDd0JobUVJdGNqMk16aFBXSnI2UER2VkV1b2tqNEVkUHhnYTQzT3BqVDlOcDgxbjRObjVHc0p4aHZYOEZJRXU5aG1lR2dJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzc4MjM3OTM2CWZpbGU6TXVzaWNTdHVkaW9fMC4xLjBfeDY0LXNldHVwLmV4ZQpZQ2ZmK3FlQ1llVUFnZzhGdlM0MUFmNGVsdU1LTmNNbmtRNVdlVUhIcWZjTXlLdzg5ck91VjRXakFhOFdUSUxIdXUwS3p3bHdZelBMQTA4ZmUrbEFCZz09Cg==",
+      "url": "https://github.com/maxfeng1979/music-studio/releases/download/v0.1.0/MusicStudio_0.1.0_x64-setup.exe"
+    }
+  }
+}
