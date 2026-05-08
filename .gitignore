@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Build output
+build/
+.vite/
+.svelte-kit/
+
+# Rust build artifacts
+src-tauri/target/
+
+# OS files
+*.log
+.DS_Store
+Thumbs.db
