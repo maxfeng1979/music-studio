@@ -42,6 +42,7 @@
           n: 1,
         }
       });
+
       // Load the new cover as blob for preview
       const result = await invoke<{ data: string; mime_type: string }>('read_file_as_data_url', { path: coverPath });
       const binaryStr = atob(result.data);

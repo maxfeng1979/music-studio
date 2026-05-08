@@ -115,6 +115,29 @@ pub struct ImageMetadata {
     pub failed_count: i32,
 }
 
+#[derive(Debug, Serialize)]
+pub struct LyricsGenerationRequest {
+    pub mode: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub prompt: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub lyrics: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub title: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct LyricsGenerationResponse {
+    #[serde(default)]
+    pub song_title: String,
+    #[serde(default)]
+    pub style_tags: String,
+    #[serde(default)]
+    pub lyrics: String,
+    #[serde(rename = "base_resp")]
+    pub base_resp: BaseResp,
+}
+
 pub struct MinimaxClient {
     api_key: String,
     client: reqwest::Client,
@@ -145,6 +168,37 @@ impl MinimaxClient {
             .json()
             .await
             .map_err(|e| e.to_string())?;
+
+        if resp.base_resp.status_code != 0 {
+            return Err(format!("API error {}: {}", resp.base_resp.status_code, resp.base_resp.status_msg));
+        }
+
+        Ok(resp)
+    }
+
+    pub async fn generate_lyrics(&self, prompt: &str) -> Result<LyricsGenerationResponse, String> {
+        let url = format!("{}/v1/lyrics_generation", BASE_URL);
+        let req = LyricsGenerationRequest {
+            mode: "write_full_song".to_string(),
+            prompt: Some(prompt.to_string()),
+            lyrics: None,
+            title: None,
+        };
+        let body = serde_json::to_string(&req).map_err(|e| e.to_string())?;
+
+        let response = self.client
+            .post(&url)
+            .header("Authorization", format!("Bearer {}", self.api_key))
+            .header("Content-Type", "application/json")
+            .body(body)
+            .send()
+            .await
+            .map_err(|e| e.to_string())?;
+
+        let raw = response.text().await.map_err(|e| e.to_string())?;
+
+        let resp: LyricsGenerationResponse = serde_json::from_str(&raw)
+            .map_err(|e| format!("Failed to parse lyrics response: {}. Raw: {}", e, &raw[..raw.len().min(500)]))?;
 
         if resp.base_resp.status_code != 0 {
             return Err(format!("API error {}: {}", resp.base_resp.status_code, resp.base_resp.status_msg));

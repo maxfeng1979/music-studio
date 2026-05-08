@@ -12,11 +12,26 @@ struct AppConfig {
     minimax_api_key: Option<String>,
 }
 
-/// Returns the default app data directory (always in AppData)
+/// Returns the default app data directory with multiple fallback levels:
+/// 1. AppData/Roaming (canonical on Windows)
+/// 2. User home directory
+/// 3. Executable parent directory (always exists at runtime)
+/// 4. Current working directory (last resort)
 pub fn get_default_app_data_dir() -> Result<PathBuf, String> {
-    dirs::data_dir()
+    if let Some(data_dir) = dirs::data_dir() {
+        return Ok(data_dir.join(APP_DIR_NAME));
+    }
+    if let Some(home_dir) = dirs::home_dir() {
+        return Ok(home_dir.join(format!(".{}", APP_DIR_NAME)));
+    }
+    if let Ok(exe_path) = std::env::current_exe() {
+        if let Some(parent) = exe_path.parent() {
+            return Ok(parent.join(APP_DIR_NAME));
+        }
+    }
+    std::env::current_dir()
         .map(|p| p.join(APP_DIR_NAME))
-        .ok_or_else(|| "Cannot find data directory".into())
+        .map_err(|_| "Cannot determine data directory. Please set a custom path in Settings.".into())
 }
 
 /// Returns the path to config.json (always in default AppData location)

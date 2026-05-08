@@ -18,6 +18,7 @@ pub struct MusicRecord {
     pub notes: Option<String>,
     #[serde(default)]
     pub is_instrumental: bool,
+    pub ai_description: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -33,14 +34,15 @@ pub struct NewMusic {
     pub sample_rate: Option<i64>,
     pub bitrate: Option<i64>,
     pub is_instrumental: bool,
+    pub ai_description: Option<String>,
 }
 
 impl super::Database {
     pub fn insert_music(&self, music: &NewMusic) -> rusqlite::Result<MusicRecord> {
         let conn = self.conn.lock().unwrap();
         conn.execute(
-            "INSERT INTO music (title, prompt, lyrics, model, audio_path, cover_image_path, duration_ms, file_size, sample_rate, bitrate, is_instrumental)
-             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)",
+            "INSERT INTO music (title, prompt, lyrics, model, audio_path, cover_image_path, duration_ms, file_size, sample_rate, bitrate, is_instrumental, ai_description)
+             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)",
             rusqlite::params![
                 music.title,
                 music.prompt,
@@ -53,6 +55,7 @@ impl super::Database {
                 music.sample_rate,
                 music.bitrate,
                 music.is_instrumental,
+                music.ai_description,
             ],
         )?;
         let id = conn.last_insert_rowid();
@@ -61,7 +64,7 @@ impl super::Database {
 
     pub fn get_music_by_id(&self, conn: &rusqlite::Connection, id: i64) -> rusqlite::Result<MusicRecord> {
         conn.query_row(
-            "SELECT id, title, prompt, lyrics, model, audio_path, cover_image_path, duration_ms, file_size, sample_rate, bitrate, created_at, tags, notes, is_instrumental
+            "SELECT id, title, prompt, lyrics, model, audio_path, cover_image_path, duration_ms, file_size, sample_rate, bitrate, created_at, tags, notes, is_instrumental, ai_description
              FROM music WHERE id = ?1",
             [id],
             |row| {
@@ -81,6 +84,7 @@ impl super::Database {
                     tags: row.get(12)?,
                     notes: row.get(13)?,
                     is_instrumental: row.get(14)?,
+                    ai_description: row.get(15)?,
                 })
             },
         )
@@ -114,7 +118,7 @@ impl super::Database {
         };
 
         let sql = format!(
-            "SELECT id, title, prompt, lyrics, model, audio_path, cover_image_path, duration_ms, file_size, sample_rate, bitrate, created_at, tags, notes, is_instrumental FROM music {} ORDER BY {}",
+            "SELECT id, title, prompt, lyrics, model, audio_path, cover_image_path, duration_ms, file_size, sample_rate, bitrate, created_at, tags, notes, is_instrumental, ai_description FROM music {} ORDER BY {}",
             where_clause, order
         );
 
@@ -137,6 +141,7 @@ impl super::Database {
                 tags: row.get(12)?,
                 notes: row.get(13)?,
                 is_instrumental: row.get(14)?,
+                ai_description: row.get(15)?,
             })
         })?;
         rows.collect()

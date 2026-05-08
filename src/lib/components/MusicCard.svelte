@@ -1,6 +1,7 @@
 <script lang="ts">
   import AudioPlayer from './AudioPlayer.svelte';
   import CoverModal from './CoverModal.svelte';
+  import DetailModal from './DetailModal.svelte';
   import { invoke } from '@tauri-apps/api/core';
   import { t } from '$lib/i18n';
 
@@ -10,6 +11,7 @@
     id: number;
     title: string;
     prompt: string;
+    lyrics: string | null;
     model: string;
     audio_path: string;
     cover_image_path: string | null;
@@ -18,6 +20,7 @@
     created_at: string;
     tags: string;
     is_instrumental: boolean;
+    ai_description: string | null;
   };
 
   export let onEdit: (music: typeof music) => void;
@@ -26,6 +29,7 @@
 
   let coverBlobUrl = '';
   let showCoverModal = false;
+  let showDetailModal = false;
 
   async function loadCover(filePath: string) {
     if (coverCache.has(filePath)) {
@@ -139,6 +143,7 @@
     <AudioPlayer src={music.audio_path} compact />
 
     <div class="actions">
+      <button class="action-btn" on:click={() => showDetailModal = true}>{$t.library.detail}</button>
       <button class="action-btn" on:click={() => onEdit(music)}>{$t.library.edit}</button>
       <button class="action-btn danger" on:click={() => onDelete(music.id)}>{$t.library.delete}</button>
     </div>
@@ -151,6 +156,13 @@
     {coverBlobUrl}
     onClose={closeCoverModal}
     onCoverUpdated={handleCoverUpdated}
+  />
+{/if}
+
+{#if showDetailModal}
+  <DetailModal
+    {music}
+    onClose={() => showDetailModal = false}
   />
 {/if}
 

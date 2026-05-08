@@ -23,6 +23,7 @@ export const en = {
     discardConfirm: 'Are you sure you want to discard? The audio file will be deleted.',
     saved: 'Saved',
     leaveConfirm: 'You have unsaved music. Are you sure you want to leave?',
+    generatingLeaveConfirm: 'Music is still generating. Are you sure you want to leave? The generated audio will be lost.',
   },
   musicForm: {
     aiAssistant: 'AI Music Assistant',
@@ -40,7 +41,7 @@ export const en = {
     lyrics: 'Lyrics (Optional)',
     lyricsPlaceholder: '[verse]\nStreet lights glow\nWandering alone at night\n\n[chorus]\nPushing open the wooden door',
     instrumental: 'Instrumental (No vocals)',
-    autoLyrics: 'Auto-generate lyrics',
+    autoLyrics: 'Use model-generated lyrics',
     audioSettings: 'Audio Settings',
     sampleRate: 'Sample Rate',
     bitrate: 'Bitrate',
@@ -66,7 +67,9 @@ export const en = {
     goToGenerator: 'Go to Generator to create some!',
     edit: 'Edit',
     delete: 'Delete',
+    deleteConfirm: 'Are you sure you want to delete this music? This cannot be undone.',
     viewCover: 'Click to view cover',
+    detail: 'Detail',
   },
   settings: {
     title: 'Settings',
@@ -127,6 +130,15 @@ export const en = {
     useThisCover: 'Use This Cover',
     discard: 'Discard',
     regenerateCover: 'Regenerate Cover',
+  },
+  detailModal: {
+    title: 'Detail',
+    aiDescription: 'Original Idea',
+    musicPrompt: 'Music Prompt',
+    noPrompt: 'No prompt',
+    lyrics: 'Lyrics',
+    noLyrics: 'Instrumental, no lyrics',
+    close: 'Close',
   },
   audioPlayer: {
     seek: 'Drag to seek',

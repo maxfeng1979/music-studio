@@ -1,12 +1,3 @@
-<script lang="ts">
-  import { goto } from '$app/navigation';
-  import { onMount } from 'svelte';
-
-  onMount(() => {
-    goto('/generator');
-  });
-</script>
-
 <div style="display:flex;align-items:center;justify-content:center;height:100vh;color:var(--color-text-light)">
-  Redirecting to Generator...
+  Loading...
 </div>

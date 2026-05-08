@@ -22,6 +22,7 @@ pub struct GenerateMusicParams {
     pub audio_setting: AudioSettings,
     #[serde(default)]
     pub aigc_watermark: bool,
+    pub ai_description: Option<String>,
 }
 
 fn default_output_format() -> String {
@@ -75,6 +76,7 @@ pub async fn generate_music(params: GenerateMusicParams, db: State<'_, Database>
         sample_rate: sample_rate.map(|s| s as i64),
         bitrate: bitrate.map(|b| b as i64),
         is_instrumental: params.is_instrumental,
+        ai_description: params.ai_description,
     };
 
     db.insert_music(&new_music).map_err(|e| e.to_string())
@@ -124,6 +126,7 @@ pub async fn generate_music_streaming(
         sample_rate: Some(params.audio_setting.sample_rate as i64),
         bitrate: Some(params.audio_setting.bitrate as i64),
         is_instrumental: params.is_instrumental,
+        ai_description: params.ai_description,
     };
 
     let record = db.insert_music(&new_music).map_err(|e| e.to_string())?;
@@ -145,6 +148,7 @@ pub struct PreviewMusicResult {
     pub sample_rate: Option<i64>,
     pub bitrate: Option<i64>,
     pub is_instrumental: bool,
+    pub ai_description: Option<String>,
 }
 
 #[tauri::command]
@@ -189,6 +193,7 @@ pub async fn preview_music(params: GenerateMusicParams) -> Result<PreviewMusicRe
         sample_rate: sample_rate.map(|s| s as i64),
         bitrate: bitrate.map(|b| b as i64),
         is_instrumental: params.is_instrumental,
+        ai_description: params.ai_description,
     })
 }
 
@@ -204,6 +209,7 @@ pub struct SaveMusicParams {
     pub sample_rate: Option<i64>,
     pub bitrate: Option<i64>,
     pub is_instrumental: bool,
+    pub ai_description: Option<String>,
 }
 
 #[tauri::command]
@@ -220,6 +226,7 @@ pub async fn save_music_to_library(params: SaveMusicParams, db: State<'_, Databa
         sample_rate: params.sample_rate,
         bitrate: params.bitrate,
         is_instrumental: params.is_instrumental,
+        ai_description: params.ai_description,
     };
     db.insert_music(&new_music).map_err(|e| e.to_string())
 }

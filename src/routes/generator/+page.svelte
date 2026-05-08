@@ -38,6 +38,12 @@
   });
 
   beforeNavigate(() => {
+    if (loading) {
+      if (!confirm($t.generator.generatingLeaveConfirm)) {
+        return false;
+      }
+      return;
+    }
     if (hasUnsavedPreview) {
       if (!confirm($t.generator.leaveConfirm)) {
         return false;
@@ -188,6 +194,24 @@
 
           <AudioPlayer src={generatedMusic.audio_path} />
 
+          <div class="result-actions">
+            {#if !isSaved}
+              <button class="primary" on:click={handleSaveToLibrary}>{$t.generator.saveToLibrary}</button>
+              <button class="secondary danger-btn" on:click={handleDiscard}>{$t.generator.discard}</button>
+            {:else}
+              <span class="saved-badge">{$t.generator.saved}</span>
+              {#if !generatedMusic.cover_image_path}
+                <button class="secondary" on:click={handleGenerateCover} disabled={coverLoading}>
+                  {#if coverLoading}
+                    {$t.generator.generatingCover}
+                  {:else}
+                    {$t.generator.generateCover}
+                  {/if}
+                </button>
+              {/if}
+            {/if}
+          </div>
+
           <div class="result-meta">
             {#if generatedMusic.duration_ms}
               <span>{$t.generator.duration}: {Math.floor(generatedMusic.duration_ms / 1000)}s</span>
@@ -208,24 +232,6 @@
               <pre>{generatedMusic.lyrics}</pre>
             </div>
           {/if}
-
-          <div class="result-actions">
-            {#if !isSaved}
-              <button class="primary" on:click={handleSaveToLibrary}>{$t.generator.saveToLibrary}</button>
-              <button class="secondary danger-btn" on:click={handleDiscard}>{$t.generator.discard}</button>
-            {:else}
-              <span class="saved-badge">{$t.generator.saved}</span>
-              {#if !generatedMusic.cover_image_path}
-                <button class="secondary" on:click={handleGenerateCover} disabled={coverLoading}>
-                  {#if coverLoading}
-                    {$t.generator.generatingCover}
-                  {:else}
-                    {$t.generator.generateCover}
-                  {/if}
-                </button>
-              {/if}
-            {/if}
-          </div>
         </div>
       {:else if loading}
         <div class="loading-state">

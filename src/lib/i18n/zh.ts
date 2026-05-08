@@ -23,6 +23,7 @@ export const zh = {
     discardConfirm: '确定要放弃这首音乐吗？音频文件将被删除。',
     saved: '已保存',
     leaveConfirm: '你有未保存的音乐，确定要离开吗？',
+    generatingLeaveConfirm: '音乐正在生成中，确定要离开吗？离开后生成的音频将无法接收。',
   },
   musicForm: {
     aiAssistant: 'AI 音乐助手',
@@ -40,7 +41,7 @@ export const zh = {
     lyrics: '歌词（可选）',
     lyricsPlaceholder: '[verse]\n街灯微亮晚风轻抚\n影子拉长独自漫步\n\n[chorus]\n推开木门香气弥漫',
     instrumental: '器乐（无人声）',
-    autoLyrics: '自动优化歌词',
+    autoLyrics: '使用模型生成的歌词',
     audioSettings: '音频设置',
     sampleRate: '采样率',
     bitrate: '比特率',
@@ -66,7 +67,9 @@ export const zh = {
     goToGenerator: '去生成器创建你的第一首音乐吧！',
     edit: '编辑',
     delete: '删除',
+    deleteConfirm: '确定要删除这首音乐吗？此操作不可恢复。',
     viewCover: '点击查看封面',
+    detail: '详情',
   },
   settings: {
     title: '设置',
@@ -127,6 +130,15 @@ export const zh = {
     useThisCover: '使用此封面',
     discard: '放弃',
     regenerateCover: '重新生成封面',
+  },
+  detailModal: {
+    title: '详情',
+    aiDescription: '原始创意描述',
+    musicPrompt: '风格描述',
+    noPrompt: '无风格描述',
+    lyrics: '歌词',
+    noLyrics: '器乐曲，无歌词',
+    close: '关闭',
   },
   audioPlayer: {
     seek: '拖动调整播放进度',

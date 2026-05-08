@@ -76,6 +76,11 @@ impl Database {
             "ALTER TABLE music ADD COLUMN is_instrumental INTEGER NOT NULL DEFAULT 0",
             [],
         ).ok();
+        // Migration: add ai_description column if missing
+        conn.execute(
+            "ALTER TABLE music ADD COLUMN ai_description TEXT",
+            [],
+        ).ok();
         Ok(())
     }
 }

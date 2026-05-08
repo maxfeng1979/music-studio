@@ -39,7 +39,7 @@
   }
 
   async function handleDelete(id: number) {
-    if (!confirm('确定要删除这首音乐吗？')) return;
+    if (!confirm($t.library.deleteConfirm)) return;
     try {
       await invoke('delete_music', { id });
       await loadMusic();

@@ -16,6 +16,7 @@
       format: string;
     };
     aigc_watermark: boolean;
+    ai_description?: string;
   }
 
   export let onSubmit: (data: FormData) => void;
@@ -190,7 +191,7 @@
     </div>
   </details>
 
-  <button class="primary generate-btn" on:click={() => onSubmit(formData)} disabled={disabled || loading}>
+  <button class="primary generate-btn" on:click={() => onSubmit({ ...formData, ai_description: aiDescription || undefined })} disabled={disabled || loading}>
     {#if loading}
       {$t.musicForm.generating}
     {:else}
@@ -274,8 +275,9 @@
 
   .form-row {
     display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
 
   .checkbox-label, .radio-label {
@@ -285,6 +287,12 @@
     font-size: 13px;
     color: var(--color-text);
     cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .checkbox-label input, .radio-label input {
+    width: auto;
+    flex-shrink: 0;
   }
 
   .full-width {

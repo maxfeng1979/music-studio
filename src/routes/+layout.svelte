@@ -3,17 +3,24 @@
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
-  import { invoke } from '@tauri-apps/api/core';
   import { t } from '$lib/i18n';
 
   onMount(async () => {
-    // Check API key status; if not configured and not on onboarding, redirect
+    let configured = false;
     try {
-      const configured: boolean = await invoke('get_api_key_status');
-      if (!configured && !$page.url.pathname.startsWith('/onboarding')) {
-        goto('/onboarding');
+      const { invoke } = await import('@tauri-apps/api/core');
+      configured = await invoke('get_api_key_status');
+    } catch (e) {
+      console.error('Failed to check API key status:', e);
+    }
+    const path = $page.url.pathname;
+    if (configured) {
+      if (path === '/' || path === '') {
+        goto('/generator', { replaceState: true });
       }
-    } catch {}
+    } else if (!path.startsWith('/onboarding')) {
+      goto('/onboarding', { replaceState: true });
+    }
   });
 
   $: showNav = $page.url.pathname !== '/onboarding';

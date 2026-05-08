@@ -13,8 +13,8 @@
   onMount(async () => {
     // Check if API key is already configured
     try {
-      const status = await invoke<{ configured: boolean }>('get_api_key_status');
-      if (status.configured) {
+      const configured: boolean = await invoke('get_api_key_status');
+      if (configured) {
         goto('/generator');
         return;
       }
@@ -28,8 +28,8 @@
     testing = true;
     testResult = null;
     try {
-      const result = await invoke<{ ok: boolean; msg: string }>('test_api_connection', { key: apiKey });
-      testResult = result;
+      const msg = await invoke<string>('test_api_connection', { key: apiKey });
+      testResult = { ok: true, msg };
     } catch (e: any) {
       testResult = { ok: false, msg: e.toString() };
     } finally {
@@ -77,7 +77,7 @@
         <p class="description">{$t.onboarding.connectDescription}</p>
 
         <a
-          href="https://platform.minimaxi.com/"
+          href="https://platform.minimaxi.com/docs/faq/about-apis"
           target="_blank"
           rel="noopener noreferrer"
           class="help-link"
