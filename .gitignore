@@ -1,18 +1,37 @@
+# Tauri artifacts
+src-tauri/target/
+src-tauri/gen/
+
+# Signing keys
+.tauri/signing-key
+
 # Dependencies
 node_modules/
-
-# Build output
 build/
 .vite/
 .svelte-kit/
-
-# Rust build artifacts
-src-tauri/target/
 
 # OS files
 *.log
 .DS_Store
 Thumbs.db
 
-# Signing keys
-.tauri/signing-key
+# Claude Code
+.claude/
+
+# Superpowers
+.superpowers/
+
+# Editor rules
+.trae/
+
+# Docs & ideas
+docs/
+00-genRules/
+myidea.md
+write-a-prd.skill
+CLAUDE.md
+README.md
+README_EN.md
+latest.json
+test_music.mp3
