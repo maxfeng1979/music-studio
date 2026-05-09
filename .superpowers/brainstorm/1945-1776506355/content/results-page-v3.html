@@ -1,0 +1,87 @@
+<h2>结果页面 — 按钮位置修正</h2>
+<p class="subtitle">操作按钮移至右栏（翻译区）上方</p>
+
+<div class="mockup" style="margin-top: 12px;">
+  <div class="mockup-body" style="padding: 12px; display: flex; flex-direction: column; gap: 10px; max-height: 440px; overflow-y: auto;">
+
+    <!-- 页面级工具栏 -->
+    <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
+      <span style="font-size: 12px; color: #6b7280;">日记：2026-04-18</span>
+      <div style="flex: 1;"></div>
+      <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #374151;">
+        <span>遮盖翻译</span>
+        <div style="width: 36px; height: 20px; background: #3b82f6; border-radius: 10px; position: relative; cursor: pointer;">
+          <div style="position: absolute; right: 2px; top: 2px; width: 16px; height: 16px; background: white; border-radius: 50%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 卡片 1：正常状态 -->
+    <div style="border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;">
+      <div style="display: flex;">
+        <!-- 左栏：源语言 -->
+        <div style="flex: 1; padding: 12px; border-right: 1px solid #f3f4f6;">
+          <div class="label" style="margin-bottom: 4px; color: #9ca3af; font-size: 10px;">原文</div>
+          <div style="font-size: 13px; line-height: 1.6; color: #374151; margin-bottom: 10px;">今天和同事讨论了一个很棘手的项目问题。</div>
+          <div class="label" style="margin-bottom: 4px; color: #3b82f6; font-size: 10px;">润色后</div>
+          <div style="font-size: 13px; line-height: 1.6; color: #4b5563;">今天我和同事讨论了一个相当棘手的项目问题。</div>
+        </div>
+        <!-- 右栏：目标语言 + 按钮 -->
+        <div style="flex: 1; padding: 12px; display: flex; flex-direction: column;">
+          <!-- 按钮在翻译区上方 -->
+          <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+            <button style="font-size: 11px; padding: 3px 8px; background: white; border: 1px solid #d1d5db; border-radius: 4px; cursor: pointer;">🔊 男声</button>
+            <button style="font-size: 11px; padding: 3px 8px; background: white; border: 1px solid #d1d5db; border-radius: 4px; cursor: pointer;">🔊 女声</button>
+            <button style="font-size: 11px; padding: 3px 8px; background: #fef3c7; border: 1px solid #fcd34d; border-radius: 4px; cursor: pointer;">⭐ 收藏</button>
+            <div style="flex: 1;"></div>
+            <div style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: #9ca3af;">
+              <span>遮盖</span>
+              <div style="width: 28px; height: 16px; background: #e5e7eb; border-radius: 8px; position: relative; cursor: pointer;">
+                <div style="position: absolute; left: 2px; top: 2px; width: 12px; height: 12px; background: white; border-radius: 50%;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="label" style="margin-bottom: 4px; color: #9ca3af; font-size: 10px;">English</div>
+          <div style="font-size: 13px; line-height: 1.6; color: #3b82f6;">Today I discussed a rather tricky project issue with my colleagues.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 卡片 2：遮盖状态 -->
+    <div style="border: 1px solid #3b82f6; border-radius: 12px; overflow: hidden; box-shadow: 0 0 0 2px #dbeafe;">
+      <div style="display: flex;">
+        <div style="flex: 1; padding: 12px; border-right: 1px solid #f3f4f6;">
+          <div class="label" style="margin-bottom: 4px; color: #9ca3af; font-size: 10px;">原文</div>
+          <div style="font-size: 13px; line-height: 1.6; color: #374151; margin-bottom: 10px;">我们花了两小时才理清思路。</div>
+          <div class="label" style="margin-bottom: 4px; color: #3b82f6; font-size: 10px;">润色后</div>
+          <div style="font-size: 13px; line-height: 1.6; color: #4b5563;">我们花了两小时才理清思路。</div>
+        </div>
+        <div style="flex: 1; padding: 12px; display: flex; flex-direction: column;">
+          <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+            <button style="font-size: 11px; padding: 3px 8px; background: white; border: 1px solid #d1d5db; border-radius: 4px; cursor: pointer;">🔊 男声</button>
+            <button style="font-size: 11px; padding: 3px 8px; background: white; border: 1px solid #d1d5db; border-radius: 4px; cursor: pointer;">🔊 女声</button>
+            <button style="font-size: 11px; padding: 3px 8px; background: #fef3c7; border: 1px solid #fcd34d; border-radius: 4px; cursor: pointer;">⭐ 收藏</button>
+            <div style="flex: 1;"></div>
+            <div style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: #3b82f6;">
+              <span>显示</span>
+              <div style="width: 28px; height: 16px; background: #3b82f6; border-radius: 8px; position: relative; cursor: pointer;">
+                <div style="position: absolute; right: 2px; top: 2px; width: 12px; height: 12px; background: white; border-radius: 50%;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="label" style="margin-bottom: 4px; color: #9ca3af; font-size: 10px;">English</div>
+          <!-- 磨砂遮盖 -->
+          <div style="position: relative; flex: 1;">
+            <div style="position: absolute; inset: 0; background: rgba(255,255,255,0.7); backdrop-filter: blur(6px); border-radius: 6px; display: flex; align-items: center; justify-content: center; z-index: 1;">
+              <span style="font-size: 12px; color: #9ca3af; letter-spacing: 2px;">●●●●●●●●</span>
+            </div>
+            <div style="font-size: 13px; line-height: 1.6; color: #3b82f6; filter: blur(4px); user-select: none; position: relative; z-index: 0;">It took us two hours to sort out our thoughts.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top: 12px;">按钮现在位于右栏（翻译区）上方，遮盖toggle在按钮组最右侧，与翻译内容对齐。其他部分保持不变。</p>

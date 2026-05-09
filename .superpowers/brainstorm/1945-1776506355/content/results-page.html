@@ -1,0 +1,100 @@
+<h2>结果页面：日记提交后的学习界面</h2>
+<p class="subtitle">每篇日记智能分段，每段配对原文+翻译，按段操作</p>
+
+<div class="options">
+  <div class="option" data-choice="card" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>卡片堆叠式</h3>
+      <p>每段一张卡片，卡片内原文在上、翻译在下，按顺序从上往下排列。视觉清晰，操作按钮在每张卡片底部。</p>
+      <div class="mockup" style="margin-top: 12px;">
+        <div class="mockup-header">Card Stack</div>
+        <div class="mockup-body" style="padding: 12px; display: flex; flex-direction: column; gap: 10px; max-height: 360px; overflow-y: auto;">
+          <div style="border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px;">
+            <div class="label" style="margin-bottom: 4px;">原文</div>
+            <div style="font-size: 13px; line-height: 1.6; color: #374151;">今天和同事讨论了一个很棘手的项目问题。</div>
+            <div style="height: 1px; background: #f3f4f6; margin: 10px 0;"></div>
+            <div class="label" style="margin-bottom: 4px;">翻译</div>
+            <div style="font-size: 13px; line-height: 1.6; color: #3b82f6;">Today I discussed a tricky project issue with my colleagues.</div>
+            <div style="display: flex; gap: 6px; margin-top: 10px;">
+              <button style="font-size: 11px; padding: 4px 10px; background: #f3f4f6; border: none; border-radius: 4px; cursor: pointer;">🔊 男声</button>
+              <button style="font-size: 11px; padding: 4px 10px; background: #f3f4f6; border: none; border-radius: 4px; cursor: pointer;">🔊 女声</button>
+              <button style="font-size: 11px; padding: 4px 10px; background: #fef3c7; border: 1px solid #fcd34d; border-radius: 4px; cursor: pointer;">⭐ 收藏</button>
+            </div>
+          </div>
+          <div style="border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px;">
+            <div class="label" style="margin-bottom: 4px;">原文</div>
+            <div style="font-size: 13px; line-height: 1.6; color: #374151;">我们花了两小时才理清思路。</div>
+            <div style="height: 1px; background: #f3f4f6; margin: 10px 0;"></div>
+            <div class="label" style="margin-bottom: 4px;">翻译</div>
+            <div style="font-size: 13px; line-height: 1.6; color: #3b82f6;">It took us two hours to sort out our thoughts.</div>
+            <div style="display: flex; gap: 6px; margin-top: 10px;">
+              <button style="font-size: 11px; padding: 4px 10px; background: #f3f4f6; border: none; border-radius: 4px; cursor: pointer;">🔊 男声</button>
+              <button style="font-size: 11px; padding: 4px 10px; background: #f3f4f6; border: none; border-radius: 4px; cursor: pointer;">🔊 女声</button>
+              <button style="font-size: 11px; padding: 4px 10px; background: #fef3c7; border: 1px solid #fcd34d; border-radius: 4px; cursor: pointer;">⭐ 收藏</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="expand" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>可折叠列表式</h3>
+      <p>每段默认只显示原文，点击展开显示翻译和操作按钮。未展开时节省空间，适合长日记。</p>
+      <div class="mockup" style="margin-top: 12px;">
+        <div class="mockup-header">Expandable List</div>
+        <div class="mockup-body" style="padding: 12px; display: flex; flex-direction: column; gap: 6px; max-height: 360px; overflow-y: auto;">
+          <div style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="font-size: 13px; color: #374151;">今天和同事讨论了一个很棘手的项目问题。</div>
+              <div style="font-size: 12px; color: #9ca3af;">▼</div>
+            </div>
+          </div>
+          <div style="border: 1px solid #3b82f6; border-radius: 8px; padding: 10px; background: #eff6ff;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <div style="font-size: 13px; color: #374151;">今天和同事讨论了一个很棘手的项目问题。</div>
+              <div style="font-size: 12px; color: #9ca3af;">▲</div>
+            </div>
+            <div style="font-size: 13px; color: #3b82f6; line-height: 1.6;">Today I discussed a tricky project issue with my colleagues.</div>
+            <div style="display: flex; gap: 6px; margin-top: 8px;">
+              <button style="font-size: 11px; padding: 4px 10px; background: white; border: 1px solid #d1d5db; border-radius: 4px; cursor: pointer;">🔊</button>
+              <button style="font-size: 11px; padding: 4px 10px; background: white; border: 1px solid #d1d5db; border-radius: 4px; cursor: pointer;">⭐ 收藏</button>
+            </div>
+          </div>
+          <div style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="font-size: 13px; color: #374151;">我们花了两小时才理清思路。</div>
+              <div style="font-size: 12px; color: #9ca3af;">▼</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="inline" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>对照滚动式</h3>
+      <p>原文和翻译在同一行左右对照排列，左原右译。滚动时两者始终对齐。适合喜欢对照学习的用户。</p>
+      <div class="mockup" style="margin-top: 12px;">
+        <div class="mockup-header">Inline Compare</div>
+        <div class="mockup-body" style="padding: 12px; display: flex; flex-direction: column; gap: 8px; max-height: 360px; overflow-y: auto;">
+          <div style="display: flex; gap: 8px; align-items: flex-start; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px;">
+            <div style="flex: 1; font-size: 13px; color: #374151; line-height: 1.6;">今天和同事讨论了一个很棘手的项目问题。</div>
+            <div style="width: 1px; background: #e5e7eb;"></div>
+            <div style="flex: 1; font-size: 13px; color: #3b82f6; line-height: 1.6;">Today I discussed a tricky project issue with my colleagues.</div>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: flex-start; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px;">
+            <div style="flex: 1; font-size: 13px; color: #374151; line-height: 1.6;">我们花了两小时才理清思路。</div>
+            <div style="width: 1px; background: #e5e7eb;"></div>
+            <div style="flex: 1; font-size: 13px; color: #3b82f6; line-height: 1.6;">It took us two hours to sort out our thoughts.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

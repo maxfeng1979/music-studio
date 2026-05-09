@@ -1,0 +1,66 @@
+<h2>主界面布局：日记记录界面应该长什么样？</h2>
+<p class="subtitle">这是用户每天打开 app 看到的第一个屏幕。决定整体体验基调和操作效率。</p>
+
+<div class="options">
+  <div class="option" data-choice="single" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>单列沉浸式</h3>
+      <p>全屏一个文本框，顶部极简模式切换。用户专注于写作本身，无侧边栏，无干扰。</p>
+      <div class="mockup" style="margin-top: 12px;">
+        <div class="mockup-header">Single Column</div>
+        <div class="mockup-body" style="display: flex; flex-direction: column; gap: 8px; padding: 12px;">
+          <div class="label">源语言 / 目标语言 ○●</div>
+          <input class="mock-input" placeholder="写下今天发生的事情..." style="height: 200px; text-align: top; padding: 12px;">
+          <button class="mock-button" style="align-self: flex-end;">提交</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="split" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>左右分栏（输入 + 结果）</h3>
+      <p>左侧写日记/原文，右侧实时显示 AI 整理和翻译结果。写作和对照同时进行。</p>
+      <div class="mockup" style="margin-top: 12px;">
+        <div class="mockup-header">Split Pane</div>
+        <div class="mockup-body" style="display: flex; gap: 4px; padding: 12px;">
+          <div class="mock-sidebar" style="width: 50%; flex: 1; padding: 12px; border: 1px dashed #ccc;">
+            <div class="label">输入区域</div>
+            <textarea class="mock-input" placeholder="写日记..." style="width: 100%; height: 180px; margin-top: 8px;"></textarea>
+          </div>
+          <div class="mock-sidebar" style="width: 50%; flex: 1; padding: 12px; border: 1px dashed #ccc;">
+            <div class="label">AI 结果</div>
+            <div style="margin-top: 8px; font-size: 11px; color: #888;">提交后显示...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="wizard" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>向导式（写 → 提交 → 结果）</h3>
+      <p>三步流程：1. 选择模式写日记 → 2. 提交等待结果 → 3. 查看整理/翻译。每步聚焦一个任务。</p>
+      <div class="mockup" style="margin-top: 12px;">
+        <div class="mockup-header">Wizard Flow</div>
+        <div class="mockup-body" style="display: flex; flex-direction: column; gap: 4px; padding: 12px;">
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <div style="width: 24px; height: 24px; background: #3b82f6; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">1</div>
+            <span style="font-size: 13px;">选择模式，写日记</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <div style="width: 24px; height: 24px; background: #e5e7eb; color: #9ca3af; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">2</div>
+            <span style="font-size: 13px; color: #9ca3af;">提交，等待 AI</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <div style="width: 24px; height: 24px; background: #e5e7eb; color: #9ca3af; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">3</div>
+            <span style="font-size: 13px; color: #9ca3af;">查看结果，收藏</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
